@@ -4,7 +4,7 @@
 #include "read_map.hpp"
 #include "timer.hpp"
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   if (argc != 2) {
     printf(ANSI_COLOR_RED "Input yaml required!\n" ANSI_COLOR_RESET);
     return -1;
@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
     vec_E<vec_Vec2f> trias;
     const auto ws_yaw = traj_dist.sample(20);
     Vec2f d(0.7, 0);
-    for (const auto& w : ws_yaw) {
+    for (const auto &w : ws_yaw) {
       decimal_t yaw = w.yaw;
       decimal_t yaw1 = yaw + yaw_max;
       decimal_t yaw2 = yaw - yaw_max;

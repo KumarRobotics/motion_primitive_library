@@ -12,18 +12,18 @@ MapPlanner<Dim>::MapPlanner(bool verbose) {
 
 template <int Dim>
 void MapPlanner<Dim>::setMapUtil(
-    const std::shared_ptr<MapUtil<Dim>>& map_util) {
+    const std::shared_ptr<MapUtil<Dim>> &map_util) {
   this->ENV_.reset(new MPL::env_map<Dim>(map_util));
   map_util_ = map_util;
 }
 
 template <int Dim>
-void MapPlanner<Dim>::setPotentialRadius(const Vecf<Dim>& radius) {
+void MapPlanner<Dim>::setPotentialRadius(const Vecf<Dim> &radius) {
   potential_radius_ = radius;
 }
 
 template <int Dim>
-void MapPlanner<Dim>::setPotentialMapRange(const Vecf<Dim>& range) {
+void MapPlanner<Dim>::setPotentialMapRange(const Vecf<Dim> &range) {
   potential_map_range_ = range;
 }
 
@@ -38,12 +38,12 @@ void MapPlanner<Dim>::setGradientWeight(decimal_t w) {
 }
 
 template <int Dim>
-void MapPlanner<Dim>::setSearchRadius(const Vecf<Dim>& search_radius) {
+void MapPlanner<Dim>::setSearchRadius(const Vecf<Dim> &search_radius) {
   search_radius_ = search_radius;
 }
 
 template <int Dim>
-void MapPlanner<Dim>::setSearchRegion(const vec_Vecf<Dim>& path, bool dense) {
+void MapPlanner<Dim>::setSearchRegion(const vec_Vecf<Dim> &path, bool dense) {
   // create cells along path
   vec_Veci<Dim> ps;
   if (!dense) {
@@ -53,7 +53,7 @@ void MapPlanner<Dim>::setSearchRegion(const vec_Vecf<Dim>& path, bool dense) {
       ps.push_back(map_util_->floatToInt(path[i]));
     }
   } else {
-    for (const auto& pt : path) ps.push_back(map_util_->floatToInt(pt));
+    for (const auto &pt : path) ps.push_back(map_util_->floatToInt(pt));
   }
 
   // create mask
@@ -79,8 +79,8 @@ void MapPlanner<Dim>::setSearchRegion(const vec_Vecf<Dim>& path, bool dense) {
   else
     in_region.resize(dim(0) * dim(1) * dim(2), false);
 
-  for (const auto& it : ps) {
-    for (const auto& n : ns) {
+  for (const auto &it : ps) {
+    for (const auto &n : ns) {
       Veci<Dim> pn = it + n;
       if (map_util_->isOutside(pn)) continue;
       int idx = map_util_->getIndex(pn);
@@ -125,7 +125,7 @@ template <int Dim>
 vec_Vecf<Dim> MapPlanner<Dim>::getLinkedNodes() const {
   lhm_.clear();
   vec_Vecf<Dim> linked_pts;
-  for (const auto& it : this->ss_ptr_->hm_) {
+  for (const auto &it : this->ss_ptr_->hm_) {
     if (!it.second) continue;
     // check pred array
     for (unsigned int i = 0; i < it.second->pred_coord.size(); i++) {
@@ -141,7 +141,7 @@ vec_Vecf<Dim> MapPlanner<Dim>::getLinkedNodes() const {
       int n = 1.0 * std::ceil(max_v * pr.t() / map_util_->getRes());
       int prev_id = -1;
       vec_E<Waypoint<Dim>> ws = pr.sample(n);
-      for (const auto& w : ws) {
+      for (const auto &w : ws) {
         int id = map_util_->getIndex(map_util_->floatToInt(w.pos));
         if (id != prev_id) {
           linked_pts.push_back(
@@ -157,13 +157,13 @@ vec_Vecf<Dim> MapPlanner<Dim>::getLinkedNodes() const {
 }
 
 template <int Dim>
-void MapPlanner<Dim>::updateBlockedNodes(const vec_Veci<Dim>& blocked_pns) {
+void MapPlanner<Dim>::updateBlockedNodes(const vec_Veci<Dim> &blocked_pns) {
   std::vector<std::pair<Waypoint<Dim>, int>> blocked_nodes;
-  for (const auto& it : blocked_pns) {
+  for (const auto &it : blocked_pns) {
     int id = map_util_->getIndex(it);
     auto search = lhm_.find(id);
     if (search != lhm_.end()) {
-      for (const auto& node : lhm_[id]) blocked_nodes.push_back(node);
+      for (const auto &node : lhm_[id]) blocked_nodes.push_back(node);
     }
   }
 
@@ -171,13 +171,13 @@ void MapPlanner<Dim>::updateBlockedNodes(const vec_Veci<Dim>& blocked_pns) {
 }
 
 template <int Dim>
-void MapPlanner<Dim>::updateClearedNodes(const vec_Veci<Dim>& cleared_pns) {
+void MapPlanner<Dim>::updateClearedNodes(const vec_Veci<Dim> &cleared_pns) {
   std::vector<std::pair<Waypoint<Dim>, int>> cleared_nodes;
-  for (const auto& it : cleared_pns) {
+  for (const auto &it : cleared_pns) {
     int id = map_util_->getIndex(it);
     auto search = lhm_.find(id);
     if (search != lhm_.end()) {
-      for (const auto& node : lhm_[id]) cleared_nodes.push_back(node);
+      for (const auto &node : lhm_[id]) cleared_nodes.push_back(node);
     }
   }
 
@@ -244,8 +244,8 @@ vec_Vec3f MapPlanner<Dim>::getGradientCloud(decimal_t h_max, int i) {
 }
 
 template <int Dim>
-vec_E<Vecf<Dim>> MapPlanner<Dim>::calculateGradient(const Veci<Dim>& coord1,
-                                                    const Veci<Dim>& coord2) {
+vec_E<Vecf<Dim>> MapPlanner<Dim>::calculateGradient(const Veci<Dim> &coord1,
+                                                    const Veci<Dim> &coord2) {
   const auto dim = map_util_->getDim();
   const auto cmap = map_util_->getMap();
 
@@ -320,7 +320,7 @@ void MapPlanner<Dim>::createMask() {
 }
 
 template <int Dim>
-void MapPlanner<Dim>::updatePotentialMap(const Vecf<Dim>& pos) {
+void MapPlanner<Dim>::updatePotentialMap(const Vecf<Dim> &pos) {
   createMask();
   // compute a 2D local potential map
   const auto dim = map_util_->getDim();
@@ -352,7 +352,7 @@ void MapPlanner<Dim>::updatePotentialMap(const Vecf<Dim>& pos) {
         int idx = map_util_->getIndex(n);
         if (map[idx] > 0) {
           dmap[idx] = H_MAX;
-          for (const auto& it : potential_mask_) {
+          for (const auto &it : potential_mask_) {
             const Veci<Dim> new_n = n + it.first;
 
             if (!map_util_->isOutside(new_n)) {
@@ -370,7 +370,7 @@ void MapPlanner<Dim>::updatePotentialMap(const Vecf<Dim>& pos) {
           int idx = map_util_->getIndex(n);
           if (map[idx] > 0) {
             dmap[idx] = H_MAX;
-            for (const auto& it : potential_mask_) {
+            for (const auto &it : potential_mask_) {
               const Veci<Dim> new_n = n + it.first;
 
               if (!map_util_->isOutside(new_n)) {
@@ -391,9 +391,9 @@ void MapPlanner<Dim>::updatePotentialMap(const Vecf<Dim>& pos) {
 }
 
 template <int Dim>
-bool MapPlanner<Dim>::iterativePlan(const Waypoint<Dim>& start,
-                                    const Waypoint<Dim>& goal,
-                                    const Trajectory<Dim>& raw_traj,
+bool MapPlanner<Dim>::iterativePlan(const Waypoint<Dim> &start,
+                                    const Waypoint<Dim> &goal,
+                                    const Trajectory<Dim> &raw_traj,
                                     int max_num) {
   bool verbose = this->planner_verbose_;
   this->planner_verbose_ = false;
@@ -406,7 +406,7 @@ bool MapPlanner<Dim>::iterativePlan(const Waypoint<Dim>& start,
     // Create a path from planned traj
     const auto ws = this->traj_.getWaypoints();
     vec_Vecf<Dim> path;
-    for (const auto& w : ws) path.push_back(w.pos);
+    for (const auto &w : ws) path.push_back(w.pos);
     setSearchRegion(path, false);
 
     if (!this->plan(start, goal)) {

@@ -25,8 +25,8 @@ class OpenCVDrawing {
   }
 
   /// Draw points
-  void drawPoints(const vec_Vec2f& pts, cv::Scalar color, int line_width = 1) {
-    for (const auto& it : pts) {
+  void drawPoints(const vec_Vec2f &pts, cv::Scalar color, int line_width = 1) {
+    for (const auto &it : pts) {
       const auto pn = map_util_->floatToInt(it);
       cv::Point pt(pn(0), pn(1));
       cv::rectangle(img_, pt, pt, color, line_width);
@@ -34,14 +34,14 @@ class OpenCVDrawing {
   }
 
   /// Draw circle
-  void drawCircle(const Vec2f& pt, cv::Scalar color, int r,
+  void drawCircle(const Vec2f &pt, cv::Scalar color, int r,
                   int line_width = 1) {
     const auto pn = map_util_->floatToInt(pt);
     cv::circle(img_, cv::Point(pn(0), pn(1)), r, color, line_width);
   }
 
   /// Draw trajectory, sample n points
-  void drawTraj(const Trajectory2D& traj, cv::Scalar color, int line_width = 1,
+  void drawTraj(const Trajectory2D &traj, cv::Scalar color, int line_width = 1,
                 int num = 200) {
     const auto ws = traj.sample(num);
     for (size_t i = 0; i < ws.size() - 1; i++) {
@@ -53,16 +53,16 @@ class OpenCVDrawing {
   }
 
   /// Draw text
-  void drawText(std::string text, const Vec2i& pn, double scale,
+  void drawText(std::string text, const Vec2i &pn, double scale,
                 cv::Scalar color) {
     cv::putText(img_, text, cv::Point(pn(0), pn(1)), cv::FONT_ITALIC, scale,
                 color, 2);
   }
 
   /// Draw line strip
-  void drawLineStrip(const vec_E<vec_Vec2f>& trias, cv::Scalar color,
+  void drawLineStrip(const vec_E<vec_Vec2f> &trias, cv::Scalar color,
                      int line_width = 1) {
-    for (const auto& it : trias) {
+    for (const auto &it : trias) {
       for (size_t i = 0; i < it.size() - 1; i++) {
         const auto pn1 = map_util_->floatToInt(it[i]);
         const auto pn2 = map_util_->floatToInt(it[i + 1]);

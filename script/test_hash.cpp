@@ -1,24 +1,23 @@
-#include "boost/unordered_map.hpp"
-#include "../include/mpl_basis/waypoint.h"
 #include "../include/mpl_basis/control.h"
+#include "../include/mpl_basis/waypoint.h"
+#include "boost/unordered_map.hpp"
 
 template <int Dim>
-std::size_t hash_value(const Waypoint<Dim>& key)
-{
-  //typedef Waypoint<Dim> argument_type;
-  //typedef std::size_t result_type;
+std::size_t hash_value(const Waypoint<Dim> &key) {
+  // typedef Waypoint<Dim> argument_type;
+  // typedef std::size_t result_type;
   std::size_t val = 0;
-  for(int i = 0; i < Dim; i++) {
-    if(key.use_pos) {
-      int id = std::round(key.pos(i)/0.1);
+  for (int i = 0; i < Dim; i++) {
+    if (key.use_pos) {
+      int id = std::round(key.pos(i) / 0.1);
       boost::hash_combine(val, id);
     }
-    if(key.use_vel) {
-      int id = std::round(key.vel(i)/0.1);
+    if (key.use_vel) {
+      int id = std::round(key.vel(i) / 0.1);
       boost::hash_combine(val, id);
     }
-    if(key.use_acc) {
-      int id = std::round(key.acc(i)/0.1);
+    if (key.use_acc) {
+      int id = std::round(key.acc(i) / 0.1);
       boost::hash_combine(val, id);
     }
   }

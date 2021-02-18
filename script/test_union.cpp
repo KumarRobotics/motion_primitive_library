@@ -1,5 +1,5 @@
-#include <iostream>
 #include <bitset>
+#include <iostream>
 
 namespace Control {
 enum Control {
@@ -16,11 +16,11 @@ enum Control {
 
 typedef union {
   struct {
-    bool use_pos: 1;
-    bool use_vel: 1;
-    bool use_acc: 1;
-    bool use_jrk: 1;
-    bool use_yaw: 1;
+    bool use_pos : 1;
+    bool use_vel : 1;
+    bool use_acc : 1;
+    bool use_jrk : 1;
+    bool use_yaw : 1;
   };
 
   Control::Control use_xxx : 5;
@@ -28,36 +28,35 @@ typedef union {
 } USE;
 
 void print(USE u) {
-  std::cout << "use_pos | use_vel | use_acc | use_jrk | use_yaw : " << std::endl;
-  std::cout << u.use_pos << " | " << u.use_vel << " | " << u.use_acc <<
-    " | " << u.use_jrk << " | " << u.use_yaw << std::endl;
+  std::cout << "use_pos | use_vel | use_acc | use_jrk | use_yaw : "
+            << std::endl;
+  std::cout << u.use_pos << " | " << u.use_vel << " | " << u.use_acc << " | "
+            << u.use_jrk << " | " << u.use_yaw << std::endl;
   std::bitset<5> x(u.use_xxx);
   std::cout << "raw use_xxx: " << u.use_xxx << std::endl;
   std::cout << "use_xxx: " << x << std::endl;
-  if(u.use_xxx == Control::VEL)
+  if (u.use_xxx == Control::VEL)
     std::cout << "use vel!" << std::endl;
-  else if(u.use_xxx == Control::ACC)
+  else if (u.use_xxx == Control::ACC)
     std::cout << "use acc!" << std::endl;
-  else if(u.use_xxx == Control::JRK)
+  else if (u.use_xxx == Control::JRK)
     std::cout << "use jrk!" << std::endl;
-  else if(u.use_xxx == Control::SNP)
+  else if (u.use_xxx == Control::SNP)
     std::cout << "use snp!" << std::endl;
-  else if(u.use_xxx == Control::VELxYAW)
+  else if (u.use_xxx == Control::VELxYAW)
     std::cout << "use vel & yaw!" << std::endl;
-  else if(u.use_xxx == Control::ACCxYAW)
+  else if (u.use_xxx == Control::ACCxYAW)
     std::cout << "use acc & yaw!" << std::endl;
-  else if(u.use_xxx == Control::JRKxYAW)
+  else if (u.use_xxx == Control::JRKxYAW)
     std::cout << "use jrk & yaw!" << std::endl;
-  else if(u.use_xxx == Control::SNPxYAW)
+  else if (u.use_xxx == Control::SNPxYAW)
     std::cout << "use snp & yaw!" << std::endl;
   else
     std::cout << "use null!" << std::endl;
-  //std::cout << "size of Control: " << sizeof(u.use_xxx) << std::endl;
+  // std::cout << "size of Control: " << sizeof(u.use_xxx) << std::endl;
 }
 
 int main() {
-
-
   USE u1, u2, u3, u4, u5, u6;
 
   print(u1);
@@ -97,8 +96,6 @@ int main() {
   u6.use_yaw = true;
 
   print(u6);
-
-
 
   std::cout << "VEL_CONTROL: " << Control::VEL << std::endl;
   std::cout << "ACC_CONTROL: " << Control::ACC << std::endl;

@@ -4,7 +4,7 @@
 #include "read_map.hpp"
 #include "timer.hpp"
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   if (argc != 2) {
     printf(ANSI_COLOR_RED "Input yaml required!\n" ANSI_COLOR_RESET);
     return -1;
@@ -72,7 +72,7 @@ int main(int argc, char** argv) {
   // Create a path from planned traj
   const auto ws = traj.getWaypoints();
   vec_Vec2f path;
-  for (const auto& w : ws) path.push_back(w.pos);
+  for (const auto &w : ws) path.push_back(w.pos);
   // Initiaize planner as a distance map planner
   planner.reset(new MPL::OccMapPlanner(true));
   planner->setMapUtil(map_util);  // Set collision checking function
