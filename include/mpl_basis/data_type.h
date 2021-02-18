@@ -4,6 +4,8 @@
 
  * Mostly aliasing from Eigen Library.
  */
+#ifndef MPL_DATA_TYPE_H
+#define MPL_DATA_TYPE_H
 
 #include <stdio.h>
 
@@ -40,8 +42,6 @@
 #define ANSI_COLOR_RESET "\x1b[0m"
 #endif
 
-#ifndef DATA_TYPE_H
-#define DATA_TYPE_H
 /*! \brief Rename the float type used in lib
 
     Default is set to be double, but user can change it to float.
